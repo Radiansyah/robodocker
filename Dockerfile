@@ -7,60 +7,6 @@ LABEL maintainer "damarre <dear.ananta@gmail.com>"
 #=============
 WORKDIR /root
 
-#==================
-# General Packages
-#------------------
-# supervisor
-#   Process manager
-# xvfb
-#   X virtual framebuffer
-#------------------
-#  NoVNC Packages
-#------------------
-# x11vnc
-#   VNC server for X display
-# openbox
-#   Windows manager
-# menu
-#   Debian menu
-# python-numpy
-#   Numpy, For faster performance: https://github.com/novnc/websockify/issues/77
-# net-tools
-#   Netstat
-#------------------
-# Chromium Packages
-#------------------
-# chromium-browser
-#   version = 70.0.3538.77-0ubuntu0.18.04.1
-# chromium-browser-l10n
-#   version = 70.0.3538.77-0ubuntu0.18.04.1
-# chromium-codecs-ffmpeg
-#   version = 70.0.3538.77-0ubuntu0.18.04.1
-#-----------------
-# Firefox Packages
-#-----------------
-# firefox
-#   version = 63.0+build2-0ubuntu0.18.04.2
-#-------------------------
-#  Python + other Packages
-#-------------------------
-# software-properties-common
-# python3-setuptools
-# python3-pip
-# python3-tk
-# unzip
-# libx11-6
-# libnss3
-# libfontconfig1
-# libgconf2-4
-# wget
-#==================
-# ARG CHROMIUM_VERSION=70.0.3538.77-0ubuntu0.18.04.1
-# ARG FIREFOX_VERSION=63.0+build2-0ubuntu0.18.04.2
-# ENV DEBIAN_FRONTEND=noninteractive \
-#     CHROMIUM_VERSION=$CHROMIUM_VERSION \
-#     FIREFOX_VERSION=$FIREFOX_VERSION
-
 RUN apt-get -qqy update && apt-get -qqy upgrade && apt-get -qqy install --no-install-recommends \
     supervisor \
     xvfb \
@@ -121,7 +67,6 @@ chmod 0755 /usr/local/bin/chromedriver
 #======================
 RUN apt-get -qqy update && apt-get -qqy upgrade && apt-get -qqy install --no-install-recommends chromium-browser
 RUN ln -s /usr/bin/chromium-browser /usr/bin/google-chrome
-  
 
 #=====================
 # Download Geckodriver
@@ -134,6 +79,11 @@ tar xvfz geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz;\
 rm -rf geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz;\
 mv -f geckodriver /usr/local/bin/geckodriver;\
 chmod 0755 /usr/local/bin/geckodriver
+
+#=====================
+# Robocop Static Code
+#=====================
+RUN pip3 install robotframework-robocop
 
 #================================================
 # noVNC Default Configurations
